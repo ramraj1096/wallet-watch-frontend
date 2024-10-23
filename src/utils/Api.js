@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:7000";
+const API_BASE_URL = "https://wallet-watch.onrender.com";
 
 export const sendOtpApi = `${API_BASE_URL}/api/otp/sendOTP`;
 export const verifyOtpApi = `${API_BASE_URL}/api/otp/verifyOtp`;
