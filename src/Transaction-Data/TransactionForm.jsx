@@ -10,12 +10,27 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
+import Grid from '@mui/material/Grid';
+import { styled } from '@mui/system';
+
+const ResponsiveDialogContent = styled(DialogContent)(({ theme }) => ({
+  [theme.breakpoints.down('sm')]: {
+    padding: theme.spacing(2),
+  },
+}));
+
+const ResponsiveFormControl = styled(FormControl)(({ theme }) => ({
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
+    width: 'calc(50% - 16px)', // Half-width with spacing
+    marginRight: theme.spacing(2),
+  },
+}));
 
 const TransactionForm = ({ open, handleClose, handleSubmit, initialData }) => {
   const [transactionType, setTransactionType] = React.useState(initialData?.transactionType || '');
   const [category, setCategory] = React.useState(initialData?.category || '');
 
-  // State to track form errors
   const [formErrors, setFormErrors] = React.useState({
     date: false,
     title: false,
@@ -50,6 +65,8 @@ const TransactionForm = ({ open, handleClose, handleSubmit, initialData }) => {
     <Dialog
       open={open}
       onClose={handleClose}
+      fullWidth
+      maxWidth="md"
       PaperProps={{
         component: 'form',
         onSubmit: (event) => {
@@ -61,7 +78,7 @@ const TransactionForm = ({ open, handleClose, handleSubmit, initialData }) => {
 
           const errors = validateForm(formJson);
           if (Object.keys(errors).length > 0) {
-            setFormErrors(errors);  // Set the errors and re-render
+            setFormErrors(errors);
             return;
           }
 
@@ -70,17 +87,16 @@ const TransactionForm = ({ open, handleClose, handleSubmit, initialData }) => {
       }}
     >
       <DialogTitle>{initialData ? "Edit Transaction" : "Add New Transaction"}</DialogTitle>
-      <DialogContent>
+      <ResponsiveDialogContent>
         <DialogContentText>
           {initialData ? "Edit your transaction details" : "Enter the details for the new transaction."}
         </DialogContentText>
 
-        <div className="space-y-6">
-          <div className="flex flex-wrap gap-x-5">
-            {/* Date Field */}
+        <Grid container spacing={2}>
+          {/* Date Field */}
+          <Grid item xs={12} sm={6}>
             <TextField
-              className="flex-1 cursor-pointer"
-              autoFocus
+              fullWidth
               required
               margin="dense"
               id="date"
@@ -93,10 +109,12 @@ const TransactionForm = ({ open, handleClose, handleSubmit, initialData }) => {
               error={!!formErrors.date}
               helperText={formErrors.date}
             />
+          </Grid>
 
-            {/* Title Field */}
+          {/* Title Field */}
+          <Grid item xs={12} sm={6}>
             <TextField
-              className="flex-1"
+              fullWidth
               required
               margin="dense"
               id="title"
@@ -107,26 +125,28 @@ const TransactionForm = ({ open, handleClose, handleSubmit, initialData }) => {
               error={!!formErrors.title}
               helperText={formErrors.title}
             />
-          </div>
+          </Grid>
 
           {/* Amount Field */}
-          <TextField
-            required
-            margin="dense"
-            id="amount"
-            name="amount"
-            label="Amount"
-            type="number"
-            defaultValue={initialData?.amount || ""}
-            variant="outlined"
-            fullWidth
-            error={!!formErrors.amount}
-            helperText={formErrors.amount}
-          />
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              required
+              margin="dense"
+              id="amount"
+              name="amount"
+              label="Amount"
+              type="number"
+              defaultValue={initialData?.amount || ""}
+              variant="outlined"
+              error={!!formErrors.amount}
+              helperText={formErrors.amount}
+            />
+          </Grid>
 
-          <div className="flex flex-wrap gap-x-5">
-            {/* Transaction Type Field */}
-            <FormControl required margin="dense" className="flex-1" error={!!formErrors.transactionType}>
+          {/* Transaction Type */}
+          <Grid item xs={12} sm={6}>
+            <ResponsiveFormControl error={!!formErrors.transactionType}>
               <InputLabel id="transactionType-label">Transaction Type</InputLabel>
               <Select
                 labelId="transactionType-label"
@@ -140,10 +160,12 @@ const TransactionForm = ({ open, handleClose, handleSubmit, initialData }) => {
                 <MenuItem value="Income">Income</MenuItem>
               </Select>
               {formErrors.transactionType && <p style={{ color: "red" }}>{formErrors.transactionType}</p>}
-            </FormControl>
+            </ResponsiveFormControl>
+          </Grid>
 
-            {/* Category Field */}
-            <FormControl required margin="dense" className="flex-1" error={!!formErrors.category}>
+          {/* Category */}
+          <Grid item xs={12} sm={6}>
+            <ResponsiveFormControl error={!!formErrors.category}>
               <InputLabel id="category-label">Category</InputLabel>
               <Select
                 labelId="category-label"
@@ -159,26 +181,28 @@ const TransactionForm = ({ open, handleClose, handleSubmit, initialData }) => {
                 <MenuItem value="Entertainment">Entertainment</MenuItem>
               </Select>
               {formErrors.category && <p style={{ color: "red" }}>{formErrors.category}</p>}
-            </FormControl>
-          </div>
+            </ResponsiveFormControl>
+          </Grid>
 
-          {/* Description Field */}
-          <TextField
-            required
-            margin="dense"
-            id="description"
-            name="description"
-            label="Description"
-            defaultValue={initialData?.description || ""}
-            variant="outlined"
-            multiline
-            rows={4}
-            fullWidth
-            error={!!formErrors.description}
-            helperText={formErrors.description}
-          />
-        </div>
-      </DialogContent>
+          {/* Description */}
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              required
+              margin="dense"
+              id="description"
+              name="description"
+              label="Description"
+              defaultValue={initialData?.description || ""}
+              variant="outlined"
+              multiline
+              rows={4}
+              error={!!formErrors.description}
+              helperText={formErrors.description}
+            />
+          </Grid>
+        </Grid>
+      </ResponsiveDialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Cancel</Button>
         <Button type="submit">{initialData ? "Update" : "Submit"}</Button>

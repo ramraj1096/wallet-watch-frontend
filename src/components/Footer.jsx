@@ -1,17 +1,18 @@
 const Footer = () => {
     return (
-      <div className="bg-blue-600 py-6 px-10">
-          <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
-              <span className="text-3xl text-white font-bold tracking-tight">
-                  Wallet Watch
-              </span>
-              <span className="text-white font-bold tracking-tight flex gap-4">
-                  <span className="hover:cursor-pointer">Privacy Policy</span>
-                  <span className="hover:cursor-pointer">Terms of Service</span>
-              </span>
+      <footer className="bg-blue-600 py-6 px-8 md:px-12">
+        <div className="container mx-auto flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+          <span className="text-3xl text-white font-bold tracking-tight">
+            Wallet Watch
+          </span>
+          <div className="flex gap-6 text-white text-lg">
+            <span className="hover:underline cursor-pointer">Privacy Policy</span>
+            <span className="hover:underline cursor-pointer">Terms of Service</span>
           </div>
-      </div>
-    )
-  }
+        </div>
+      </footer>
+    );
+  };
   
-  export default Footer
+  export default Footer;
+  

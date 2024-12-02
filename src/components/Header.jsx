@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import LogoutIcon from '@mui/icons-material/Logout';
-
 import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
@@ -21,7 +20,6 @@ const Header = () => {
       setUser(true);
     } else {
       setUser(false);
-      
     }
   }, []); // Empty dependency array ensures it runs once on component mount.
 
@@ -30,20 +28,34 @@ const Header = () => {
   }
 
   return (
-    <div className="bg-blue-600 py-6 px-10">
+    <header className="bg-blue-600 py-4 px-6 md:px-12">
       <div className="container mx-auto flex justify-between items-center">
-        <Link className="text-3xl font-bold tracking-tight text-white" to={"/"}>
+        <Link className="text-3xl font-bold text-white hover:text-gray-200 transition duration-300" to="/">
           Wallet Watch
         </Link>
-        {user && (
-          <LogoutIcon
-            fontSize="large"
-            className="text-white mr-5 cursor-pointer"
-            onClick={handleLogout}
-          />
-        )}
+        
+        <div className="flex items-center space-x-4">
+          {/* {user ? (
+            <>
+              <button 
+                onClick={handleLogout}
+                className="flex items-center text-white hover:text-gray-200 transition duration-300"
+              >
+                <LogoutIcon fontSize="large" />
+                <span className="ml-2 text-lg">Logout</span>
+              </button>
+            </>
+          ) : (
+            <Link 
+              to="/login" 
+              className="text-white hover:text-gray-200 transition duration-300"
+            >
+              Login
+            </Link>
+          )} */}
+        </div>
       </div>
-    </div>
+    </header>
   );
 };
 
